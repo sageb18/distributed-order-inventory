@@ -1,8 +1,13 @@
 package com.sageb18.distributedorderinventory.model;
 
 
+import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbBean;
+import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbPartitionKey;
+
 import java.math.BigDecimal;
 
+
+@DynamoDbBean // telling dynamo what a product looks like
 public class Product {
 
     private String productId;
@@ -20,6 +25,7 @@ public class Product {
         this.stock = stock;
     }
 
+    @DynamoDbPartitionKey // tells dynamo that productid is how we identify and retrieve products
     public String getProductId() {
         return productId;
     }

@@ -5,6 +5,8 @@ import com.sageb18.distributedorderinventory.model.Product;
 import com.sageb18.distributedorderinventory.service.ProductService;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collection;
+
 
 @RestController
 @RequestMapping("/products")
@@ -17,13 +19,13 @@ public class ProductController {
     }
 
     @GetMapping
-    public String getAllProducts() {
-        return "Testing getAllProducts";
+    public Collection<Product> getAllProducts() {
+        return productService.getAllProducts();
     }
 
     @GetMapping("/{productId}")
-    public String getProductById(@PathVariable String productId) {
-        return "Testing getProductById";
+    public Product getProductById(@PathVariable String productId) {
+        return productService.getProductById(productId);
     }
 
     @PostMapping
