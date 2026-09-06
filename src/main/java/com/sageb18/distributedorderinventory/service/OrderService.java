@@ -18,7 +18,6 @@ public class OrderService {
 
     public Order createOrder(Order order) {
         order.setOrderId(UUID.randomUUID().toString());
-
         return orderRepository.save(order);
     }
 
