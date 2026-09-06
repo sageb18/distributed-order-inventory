@@ -23,9 +23,12 @@ public class OrderService {
 
     public Order createOrder(Order order) {
 
-        // checks if product exists
+        // every order gets a unique ID regardless of failed or not
+        order.setOrderId(UUID.randomUUID().toString());
+
         Product product = productRepository.findById(order.getProductId());
 
+        // check if product exists
         if (product == null) {
             order.setStatus(OrderStatus.FAILED_PRODUCT_CHECK);
             return orderRepository.save(order);
@@ -46,18 +49,19 @@ public class OrderService {
         /*
         if everything checks out,
         1. reduce stock
+        2. persist the new product
         2. confirm order
         3. persist
          */
 
-        // reduce stock
+        // reduce stock & update product in db
         product.setStock(product.getStock() - order.getQuantity());
+        productRepository.save(product);
 
         // confirm order
         order.setStatus(OrderStatus.CONFIRMED);
-        order.setOrderId(UUID.randomUUID().toString());
 
-        // persist
+        // persist order
         return orderRepository.save(order);
     }
 
