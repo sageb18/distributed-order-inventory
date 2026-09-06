@@ -29,6 +29,14 @@ public class ProductRepository {
         return product;
     }
 
+    public Product deleteProductById(String productId) {
+        Key key = Key.builder()
+                .partitionValue(productId)
+                .build();
+
+        return productTable.deleteItem(key);
+    }
+
     public Product findById(String productId) {
         Key key = Key.builder()
                 .partitionValue(productId)

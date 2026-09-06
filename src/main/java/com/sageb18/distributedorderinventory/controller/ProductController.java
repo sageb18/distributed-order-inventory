@@ -3,6 +3,7 @@ package com.sageb18.distributedorderinventory.controller;
 
 import com.sageb18.distributedorderinventory.model.Product;
 import com.sageb18.distributedorderinventory.service.ProductService;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
@@ -31,6 +32,12 @@ public class ProductController {
     @PostMapping
     public Product createProduct(@RequestBody Product product) {
         return productService.createProduct(product);
+    }
+
+    @DeleteMapping("/{productId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT) // 204 No Content = deletion succeeded, nothing else to return
+    public void deleteProductById(@PathVariable String productId) {
+        productService.deleteProductById(productId);
     }
 
 }
