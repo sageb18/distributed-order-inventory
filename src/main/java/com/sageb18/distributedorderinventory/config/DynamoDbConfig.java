@@ -16,7 +16,7 @@ public class DynamoDbConfig {
     @Bean
     public DynamoDbClient dynamoDbClient() {
         return DynamoDbClient.builder()
-                .endpointOverride(URI.create("http://localhost:8080")) // dynamo location
+                .endpointOverride(URI.create("http://localhost:8000")) // points to our docker port
                 .region(Region.US_WEST_2)
                 .credentialsProvider(
                         StaticCredentialsProvider.create(
