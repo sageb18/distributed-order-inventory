@@ -31,19 +31,28 @@ public class OrderService {
         // check if product exists
         if (product == null) {
             order.setStatus(OrderStatus.FAILED_PRODUCT_CHECK);
-            return orderRepository.save(order);
+
+            orderRepository.save(order);
+
+            return order;
         }
 
         // check if order quantity > 0
         if (order.getQuantity() <= 0) {
             order.setStatus(OrderStatus.FAILED_ORDER_QUANTITY);
-            return orderRepository.save(order);
+
+            orderRepository.save(order);
+
+            return order;
         }
 
         // verify enough stock
         if (product.getStock() < order.getQuantity()) {
             order.setStatus(OrderStatus.FAILED_STOCK_CHECK);
-            return orderRepository.save(order);
+
+            orderRepository.save(order);
+
+            return order;
         }
 
         /*
@@ -62,7 +71,9 @@ public class OrderService {
         order.setStatus(OrderStatus.CONFIRMED);
 
         // persist order
-        return orderRepository.save(order);
+        orderRepository.save(order);
+
+        return order;
     }
 
     public Order getOrderById(String orderId) {

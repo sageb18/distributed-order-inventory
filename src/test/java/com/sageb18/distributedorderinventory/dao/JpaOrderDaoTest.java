@@ -3,6 +3,7 @@ package com.sageb18.distributedorderinventory.dao;
 import com.sageb18.distributedorderinventory.model.Order;
 import com.sageb18.distributedorderinventory.model.OrderStatus;
 import com.sageb18.distributedorderinventory.repository.OrderRepository;
+import com.sageb18.distributedorderinventory.repository.ProductRepository;
 import com.sageb18.distributedorderinventory.service.OrderService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -26,6 +27,9 @@ import static org.mockito.Mockito.when;
  */
 @ExtendWith(MockitoExtension.class)
 public class JpaOrderDaoTest {
+    @Mock
+    private ProductRepository productRepository;
+
     @Mock
     private OrderRepository orderRepository;
 
@@ -59,7 +63,7 @@ public class JpaOrderDaoTest {
 
         assertThat(saved.getProductId()).isEqualTo("product-1");
         assertThat(saved.getQuantity()).isEqualTo(3);
-        assertThat(saved.getStatus()).isEqualTo(OrderStatus.PENDING);
+        assertThat(saved.getStatus()).isEqualTo(OrderStatus.FAILED_PRODUCT_CHECK);
         assertThat(saved.getOrderId()).isNotBlank();
     }
 
@@ -74,7 +78,7 @@ public class JpaOrderDaoTest {
         assertThat(created.getOrderId()).isEqualTo(persisted.getValue().getOrderId());
         assertThat(created.getProductId()).isEqualTo("product-1");
         assertThat(created.getQuantity()).isEqualTo(3);
-        assertThat(created.getStatus()).isEqualTo(OrderStatus.CONFIRMED);
+        assertThat(created.getStatus()).isEqualTo(OrderStatus.FAILED_PRODUCT_CHECK);
     }
 
     @Test
@@ -108,7 +112,7 @@ public class JpaOrderDaoTest {
     @Test
     void getAllOrdersReturnsEveryOrderFromTheRepository() {
         Order first = new Order("order-1", "product-1", 1, OrderStatus.PENDING);
-        Order second = new Order("order-2", "product-2", 2, OrderStatus.OUT_OF_STOCK);
+        Order second = new Order("order-2", "product-2", 2, OrderStatus.FAILED_ORDER_QUANTITY);
         // stub with mockito since this is a dummy db
         when(orderRepository.findAll()).thenReturn(List.of(first, second));
 
